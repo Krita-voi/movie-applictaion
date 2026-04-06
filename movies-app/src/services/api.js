@@ -1,4 +1,4 @@
-const API_Key = process.env.REACT_APP_OMDB_API_KEY;
+const API_Key = import.meta.env.VITE_OMDB_API_KEY;
 const BASE_URL = "https://www.omdbapi.com/";
 
 export const getPopularMovies = async () => {
@@ -7,7 +7,12 @@ export const getPopularMovies = async () => {
   );
   const data = await response.json();
 
-  return data.Search || [];
+  return (data.Search || []).map((movie) => ({
+    id: movie.imdbID,
+    title: movie.Title,
+    url: movie.Poster,
+    release_date: movie.Year,
+  }));
 };
 
 export const searchMovies = async (query) => {
@@ -16,5 +21,10 @@ export const searchMovies = async (query) => {
   );
   const data = await response.json();
 
-  return data.Search || [];
+  return (data.Search || []).map((movie) => ({
+    id: movie.imdbID,
+    title: movie.Title,
+    url: movie.Poster,
+    release_date: movie.Year,
+  }));
 };
